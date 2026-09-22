@@ -1,0 +1,45 @@
+{
+  "name": "client-server-monorepo",
+  "version": "0.1.0",
+  "private": true,
+  "workspaces": [
+    "apps/*"
+  ],
+  "engines": {
+    "node": ">=22.12.0 <23",
+    "npm": ">=10"
+  },
+  "scripts": {
+    "dev": "concurrently --kill-others --names api,web \"npm run dev -w @app/api\" \"npm run dev -w @app/web\"",
+    "dev:api": "npm run dev -w @app/api",
+    "dev:web": "npm run dev -w @app/web",
+    "build": "npm run build --workspaces",
+    "typecheck": "npm run typecheck --workspaces && tsc -p tsconfig.tests.json",
+    "test": "vitest run --coverage",
+    "test:watch": "vitest",
+    "smoke": "node scripts/smoke.mjs",
+    "check": "npm run typecheck && npm test && npm run build && npm run format:check",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "db:up": "docker compose up -d --wait db",
+    "db:down": "docker compose stop db",
+    "migration:generate": "npm run migration:generate -w @app/api --",
+    "migration:run": "npm run migration:run -w @app/api",
+    "migration:revert": "npm run migration:revert -w @app/api"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^7.0.1",
+    "@testing-library/react": "^16.3.3",
+    "@testing-library/user-event": "^14.6.7",
+    "@types/node": "^22.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "@vitest/coverage-v8": "^5.0.1",
+    "concurrently": "^10.0.5",
+    "jsdom": "^26.1.0",
+    "prettier": "^3.9.8",
+    "ts-node": "^10.9.2",
+    "typescript": "~5.9.3",
+    "vitest": "^5.0.1"
+  }
+}
