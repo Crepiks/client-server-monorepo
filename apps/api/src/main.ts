@@ -2,12 +2,13 @@ import 'reflect-metadata';
 import './config/load-env';
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
+import { ExpressAdapter } from '@nestjs/platform-express';
 import { AppModule } from './app.module';
 import { getPort } from './config/environment';
 
 async function bootstrap() {
   const port = getPort(process.env, 'API_PORT', 3000);
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, new ExpressAdapter());
   app.setGlobalPrefix('api');
   app.enableShutdownHooks();
   await app.listen(port, '0.0.0.0');

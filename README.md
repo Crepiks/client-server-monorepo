@@ -6,6 +6,8 @@ Connecting a frontend, API, and database should not consume the first hours of a
 This repository provides one npm workspace, a working database health check, and
 Docker Compose with hot reload so you can start implementing your product.
 
+![Starter page with a successful API and database connection](docs/images/starter.png)
+
 ## Quick start: everything in Docker
 
 Install Docker Desktop (or Docker Engine with Compose v2), then run from the repository root:
@@ -98,6 +100,8 @@ Run these from the repository root:
 | `npm run format` / `npm run format:check` | Format / check formatting                         |
 | `npm run check`                           | Types, coverage tests, builds, and formatting     |
 
+`npm run smoke` verifies the running frontend, API proxy, and database.
+
 ## Environment
 
 Copy `.env.example` to `.env`; all supported settings are documented there.
@@ -158,6 +162,16 @@ curl --fail http://localhost:5173/api/health
 
 Both should return `{"status":"ok","database":"up"}`. The second request checks
 the Vite proxy as well as NestJS and PostgreSQL.
+
+`npm run smoke` checks both endpoints, their JSON and cache headers, and the
+frontend HTML. For custom ports, pass web and API URLs in that order:
+
+```sh
+npm run smoke -- http://localhost:5174 http://localhost:3001
+```
+
+GitHub Actions runs `npm run check`, starts Compose, runs the live smoke check,
+and executes the migration command on pull requests and pushes to `trunk`.
 
 ## Troubleshooting
 

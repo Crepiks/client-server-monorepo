@@ -28,19 +28,28 @@ The API uses TypeORM to query PostgreSQL. Compose runs all services in watch mod
 
 ## Tasks
 
-- [ ] Add workspace tooling, API configuration, and health behavior with tests.
+- [x] Add workspace tooling, API configuration, and health behavior with tests.
       Config tests exercise missing credentials, port defaults and boundaries.
       Health tests use a fake database boundary to verify SQL and 503 responses.
       Run `npm test` and `npm run typecheck`; commit the API and workspace foundation.
-- [ ] Add the React page and fetch boundary with tests for success, errors,
+- [x] Add the React page and fetch boundary with tests for success, errors,
       invalid JSON, and invalid payloads. Run the tests before and after implementation.
       Add Compose, a development Dockerfile, Vite proxy, and README commands.
       Run `npm run check`, `docker compose config --quiet`, and the live stack.
       Capture the starter page for the README and commit the frontend/dev environment.
-- [ ] Review the complete scaffold, resolve defects, and report verification.
+- [x] Review the complete scaffold, resolve defects, and report verification.
 
 ## Execution decisions
 
 The user authorized scaffolding this stack. Routine architecture choices and
 local reversible verification proceed inline without additional approval gates.
 Dependencies are checked against the npm registry before installation.
+
+The app scaffold and development environment share a workspace lockfile and were
+committed together. Live verification follows in a second logical change.
+The live startup check exposed an npm workspace resolution issue: Nest's core
+package cannot implicitly load an HTTP adapter installed in the API workspace.
+An explicit ExpressAdapter import fixes it; CI now exercises full Compose startup.
+Compose assigns separate image names to API and web to avoid concurrent tag writes.
+The local machine already used PostgreSQL port 5432, so the ignored `.env` uses
+5433 while `.env.example` retains the standard port.

@@ -17,6 +17,7 @@
     "typecheck": "npm run typecheck --workspaces && tsc -p tsconfig.tests.json",
     "test": "vitest run --coverage",
     "test:watch": "vitest",
+    "smoke": "node scripts/smoke.mjs",
     "check": "npm run typecheck && npm test && npm run build && npm run format:check",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
