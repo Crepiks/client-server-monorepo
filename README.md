@@ -33,8 +33,12 @@ are never mounted into them. The Compose setup is for local development.
 
 ## Local Node development
 
-Use Node **22.12+ within Node 22**, npm **10+**, and a running Docker daemon.
+Use Node **22.12+ within Node 22**, npm **10.x**, and a running Docker daemon.
 `.nvmrc` selects Node 22 when using nvm.
+
+The npm major version is restricted to 10 for DigitalOcean App Platform's Node.js
+buildpack, whose dependency installation uses `--unsafe-perm`. Newer npm versions
+can reject that flag before the application build begins.
 
 ```sh
 nvm install
