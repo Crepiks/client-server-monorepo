@@ -170,8 +170,17 @@ frontend HTML. For custom ports, pass web and API URLs in that order:
 npm run smoke -- http://localhost:5174 http://localhost:3001
 ```
 
-GitHub Actions runs `npm run check`, starts Compose, runs the live smoke check,
-and executes the migration command on pull requests and pushes to `trunk`.
+GitHub Actions runs four independent jobs on pull requests and pushes to `trunk`:
+
+- `static-checks`: formatting and TypeScript checks.
+- `unit-tests`: unit tests with the enforced coverage thresholds above.
+- `build`: production builds for the web client and API.
+- `integration`: Compose startup, live smoke checks, and the migration command;
+  service logs are shown on failure and services are always stopped afterward.
+
+Each job runs independently, so a failure in one category does not prevent the
+others from running. Use `npm run check` locally to run TypeScript, coverage tests,
+builds, and formatting together; live integration checks require the running stack.
 
 ## Troubleshooting
 
