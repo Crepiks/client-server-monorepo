@@ -33,8 +33,9 @@ are never mounted into them. The Compose setup is for local development.
 
 ## Local Node development
 
-Use Node **22.12+ within Node 22**, npm **10.x**, and a running Docker daemon.
-`.nvmrc` selects Node 22 when using nvm.
+Use Node **24 LTS** (24.11+), npm **10.x**, and a running Docker daemon.
+`.nvmrc` selects Node 24 when using nvm. Node 24 bundles npm 11, so install
+npm 10 after switching versions.
 
 The npm major version is restricted to 10 for DigitalOcean App Platform's Node.js
 buildpack, whose dependency installation uses `--unsafe-perm`. Newer npm versions
@@ -43,6 +44,7 @@ can reject that flag before the application build begins.
 ```sh
 nvm install
 nvm use
+npm install --global npm@10
 cp .env.example .env
 npm ci
 npm run db:up
